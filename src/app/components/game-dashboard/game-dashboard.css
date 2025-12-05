@@ -1,0 +1,45 @@
+.dashboard {
+  min-height: calc(100vh - 68px);
+  background:
+    radial-gradient(ellipse at top, rgba(245, 144, 30, 0.06) 0%, transparent 60%),
+    linear-gradient(180deg, #FFF9B8 0%, #f0e8a8 100%);
+  padding: 2rem;
+}
+
+.content {
+  max-width: 800px;
+  margin: 0 auto;
+  border-radius: 8px;
+  box-shadow:
+    0 10px 40px rgba(22, 17, 13, 0.2),
+    0 0 0 2px #F5901E;
+  background: linear-gradient(180deg, #fefdfb 0%, #FFF9B8 100%);
+  overflow: hidden;
+}
+
+.game-area {
+  text-align: center;
+  padding: 2.5rem 0;
+}
+
+.start-btn {
+  font-size: 1.2rem;
+  padding: 0 48px;
+  height: 56px;
+  border-radius: 4px;
+  box-shadow: 0 6px 20px rgba(245, 144, 30, 0.35);
+  transition: all 0.3s ease;
+}
+
+.start-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(245, 144, 30, 0.5);
+}
+
+.info-card {
+  margin-top: 2rem;
+  background: linear-gradient(180deg, #fefdfb 0%, #FFF9B8 100%);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(22, 17, 13, 0.1);
+  border: 1px solid rgba(245, 144, 30, 0.3);
+}

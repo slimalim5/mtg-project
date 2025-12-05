@@ -1,0 +1,15 @@
+:host {
+  display: block;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.username {
+  margin-right: 16px;
+  font-weight: 600;
+  color: #FFF9B8;
+  font-size: 0.95rem;
+  font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif;
+}

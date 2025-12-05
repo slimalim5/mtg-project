@@ -1,1 +1,186 @@
-/* You can add global styles to this file, and also import other style files */
+@use '@angular/material' as mat;
+
+html {
+  @include mat.theme((
+    color: (
+      theme-type: light,
+      primary: mat.$orange-palette,
+      tertiary: mat.$cyan-palette,
+    ),
+    typography: Roboto,
+    density: 0,
+  ));
+}
+
+body {
+  margin: 0;
+  font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif;
+  background: #FFF9B8;
+}
+
+/* Global Material Button Styles */
+.mat-mdc-raised-button.mat-primary,
+.mat-mdc-unelevated-button.mat-primary {
+  --mdc-protected-button-container-color: #F5901E;
+  --mdc-protected-button-label-text-color: #16110D;
+  --mdc-filled-button-container-color: #F5901E;
+  --mdc-filled-button-label-text-color: #16110D;
+  font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif;
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: 0.5px;
+  border-radius: 4px;
+  padding: 0 24px;
+  height: 44px;
+  box-shadow:
+    0 4px 12px rgba(245, 144, 30, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+}
+
+.mat-mdc-raised-button.mat-primary:hover,
+.mat-mdc-unelevated-button.mat-primary:hover {
+  --mdc-protected-button-container-color: #f9a94d;
+  --mdc-filled-button-container-color: #f9a94d;
+  transform: translateY(-2px);
+  box-shadow:
+    0 6px 16px rgba(245, 144, 30, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.mat-mdc-raised-button.mat-primary:active,
+.mat-mdc-unelevated-button.mat-primary:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(245, 144, 30, 0.3);
+}
+
+.mat-mdc-button {
+  font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+/* Login Card Styles */
+.login-card .mat-mdc-card-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px 16px 0;
+}
+
+.login-card .mat-mdc-card-title {
+  color: #16110D !important;
+  font-size: 1.8rem;
+  font-weight: 700;
+  font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  letter-spacing: 2px;
+}
+
+.login-card .mat-mdc-card-subtitle {
+  color: #104B8A !important;
+  font-size: 1rem;
+  margin-top: 0.5rem;
+  font-style: italic;
+}
+
+/* Header Toolbar Styles */
+.mat-toolbar.mat-primary {
+  background: linear-gradient(90deg, #16110D 0%, #1e1915 50%, #16110D 100%);
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.4),
+    inset 0 -1px 0 rgba(245, 144, 30, 0.3);
+  font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif;
+  border-bottom: 2px solid #F5901E;
+}
+
+.mat-toolbar span:first-child {
+  font-size: 1.3rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #F5901E;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.mat-toolbar button.mat-mdc-button {
+  color: #FFF9B8;
+  font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif;
+  font-weight: 600;
+  font-size: 0.9rem;
+  letter-spacing: 0.5px;
+  border: 1px solid #F5901E;
+  border-radius: 4px;
+  padding: 0 16px;
+  height: 36px;
+  background: rgba(245, 144, 30, 0.1);
+  transition: all 0.2s ease;
+}
+
+.mat-toolbar button.mat-mdc-button:hover {
+  background: #F5901E;
+  color: #16110D;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(245, 144, 30, 0.3);
+}
+
+.mat-toolbar button.mat-mdc-button:hover mat-icon {
+  color: #16110D;
+}
+
+.mat-toolbar mat-icon {
+  color: #F5901E;
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+  margin-right: 4px;
+}
+
+/* Game Dashboard Card Styles */
+.content > .mat-mdc-card-header {
+  background: linear-gradient(180deg, #16110D 0%, #1e1915 100%);
+  padding: 1.5rem 2rem;
+  margin: -16px -16px 16px -16px;
+  border-bottom: 2px solid #F5901E;
+}
+
+.content .mat-mdc-card-title {
+  color: #F5901E !important;
+  font-size: 1.6rem;
+  font-weight: 700;
+  font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif;
+  letter-spacing: 1px;
+}
+
+.content .mat-mdc-card-subtitle {
+  color: #FFF9B8 !important;
+  font-size: 1rem;
+  font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif;
+  font-style: italic;
+  opacity: 0.9;
+}
+
+.start-btn mat-icon {
+  margin-right: 8px;
+  font-size: 28px;
+  width: 28px;
+  height: 28px;
+}
+
+.info-card .mat-mdc-card-title {
+  color: #16110D !important;
+  font-size: 1.2rem;
+  font-weight: 700;
+  font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif;
+}
+
+.info-card mat-icon {
+  color: #F5901E;
+}
+
+.info-card .mdc-list-item__primary-text {
+  color: #16110D;
+  font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif;
+}

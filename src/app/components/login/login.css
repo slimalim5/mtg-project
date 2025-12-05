@@ -1,0 +1,74 @@
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background:
+    radial-gradient(ellipse at top, rgba(245, 144, 30, 0.08) 0%, transparent 50%),
+    linear-gradient(180deg, #FFF9B8 0%, #f0e8a8 100%);
+}
+
+.login-card {
+  padding: 2.5rem;
+  border-radius: 8px;
+  box-shadow:
+    0 10px 40px rgba(22, 17, 13, 0.2),
+    0 0 0 2px #F5901E;
+  text-align: center;
+  max-width: 400px;
+  background: linear-gradient(180deg, #fefdfb 0%, #FFF9B8 100%);
+}
+
+.mtg-logo {
+  width: 280px;
+  height: auto;
+  margin-bottom: 1.5rem;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+  display: block;
+  order: -1;
+}
+
+/* Mana color divider */
+.mana-divider {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin: 1.5rem 0;
+}
+
+.mana {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.4),
+    inset 0 1px 2px rgba(255, 255, 255, 0.3);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.mana:hover {
+  transform: scale(1.2);
+  box-shadow:
+    0 4px 8px rgba(0, 0, 0, 0.5),
+    inset 0 1px 2px rgba(255, 255, 255, 0.4);
+}
+
+.mana-w { background: linear-gradient(135deg, #FFF9B8 0%, #e6dfa0 100%); }
+.mana-u { background: linear-gradient(135deg, #1a6bb8 0%, #104B8A 100%); }
+.mana-b { background: linear-gradient(135deg, #2a211a 0%, #16110D 100%); }
+.mana-r { background: linear-gradient(135deg, #b8341f 0%, #962817 100%); }
+.mana-g { background: linear-gradient(135deg, #1a7a4a 0%, #125B37 100%); }
+
+.google-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.google-btn img {
+  width: 20px;
+  height: 20px;
+}

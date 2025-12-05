@@ -1,0 +1,22 @@
+<div class="login-container">
+  <mat-card class="login-card">
+    <mat-card-header>
+      <img src="mtg-logo.png" alt="Magic: The Gathering" class="mtg-logo">
+      <mat-card-title>20 Questions</mat-card-title>
+      <mat-card-subtitle>Think of a card. I'll guess it.</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="mana-divider">
+        <span class="mana mana-w"></span>
+        <span class="mana mana-u"></span>
+        <span class="mana mana-b"></span>
+        <span class="mana mana-r"></span>
+        <span class="mana mana-g"></span>
+      </div>
+      <button mat-raised-button color="primary" (click)="signInWithGoogle()" class="google-btn">
+        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">
+        Sign In with Google
+      </button>
+    </mat-card-content>
+  </mat-card>
+</div>

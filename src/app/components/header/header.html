@@ -1,0 +1,9 @@
+<mat-toolbar color="primary" *ngIf="user$ | async as user">
+  <span>MTG 20 Questions</span>
+  <span class="spacer"></span>
+  <span class="username">{{user.displayName}}</span>
+  <button mat-button (click)="logout()">
+    <mat-icon>logout</mat-icon>
+    Sign Out
+  </button>
+</mat-toolbar>
