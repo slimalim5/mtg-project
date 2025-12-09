@@ -1,4 +1,5 @@
 import { Injectable, inject } from '@angular/core';
+import { CardService } from './card.service';
 import {
   Firestore,
   collection,
@@ -11,28 +12,39 @@ import {
   Timestamp
 } from '@angular/fire/firestore';
 import { Game, Turn, SecretCardData } from '../models/game.model';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GameService {
   private firestore = inject(Firestore);
+  private cardService = inject(CardService);
+  cardData: SecretCardData | null = null;
 
   // Mock card data for testing
-  private mockCard: SecretCardData = {
-    name: 'Lightning Bolt',
-    mana_cost: '{R}',
-    type_line: 'Instant',
-    oracle_text: 'Deal 3 damage to any target.'
-  };
+  // private mockCard: SecretCardData = {
+  //   name: 'Lightning Bolt',
+  //   mana_cost: '{R}',
+  //   type_line: 'Instant',
+  //   oracle_text: 'Deal 3 damage to any target.'
+  // };
 
-  async createGame(userId: string, cardData?: SecretCardData): Promise<string> {
+  async loadCard() {
+    this.cardService.getRandomCard().subscribe(data => {
+      console.log(data);
+      this.cardData = data;
+    });
+  }
+
+  async createGame(userId: string): Promise<string> {
     const gamesRef = collection(this.firestore, `users/${userId}/games`);
+
 
     const newGame: Omit<Game, 'id'> = {
       status: 'active',
       startedAt: Timestamp.now(),
-      secretCardData: cardData || this.mockCard
+      secretCardData: this.cardData,
     };
 
     const docRef = await addDoc(gamesRef, newGame);

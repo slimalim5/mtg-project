@@ -1,12 +1,139 @@
 import { Timestamp } from '@angular/fire/firestore';
 
-export interface SecretCardData {
+// Outdated
+// export interface SecretCardData {
+//   name: string;
+//   mana_cost: string;
+//   type_line: string;
+//   oracle_text: string;
+// }
+
+export interface ImageUris {
+  small: string;
+  normal: string;
+  large: string;
+  png: string;
+  art_crop: string;
+  border_crop: string;
+}
+
+export interface CardFace {
+  object: string;
   name: string;
   mana_cost: string;
   type_line: string;
   oracle_text: string;
+  colors: string[];
+  color_indicator?: string[];
+  power?: string;
+  toughness?: string;
+  artist: string;
+  artist_id: string;
+  illustration_id: string;
+  image_uris: ImageUris;
 }
 
+export interface Legalities {
+  standard: string;
+  future: string;
+  historic: string;
+  timeless: string;
+  gladiator: string;
+  pioneer: string;
+  modern: string;
+  legacy: string;
+  pauper: string;
+  vintage: string;
+  penny: string;
+  commander: string;
+  oathbreaker: string;
+  standardbrawl: string;
+  brawl: string;
+  alchemy: string;
+  paupercommander: string;
+  duel: string;
+  oldschool: string;
+  premodern: string;
+  predh: string;
+}
+
+export interface Preview {
+  source: string;
+  source_uri: string;
+  previewed_at: string;
+}
+
+export interface Prices {
+  usd: string | null;
+  usd_foil: string | null;
+  usd_etched: string | null;
+  eur: string | null;
+  eur_foil: string | null;
+  tix: string | null;
+}
+
+export interface SecretCardData {
+  object: string;
+  id: string;
+  oracle_id: string;
+  multiverse_ids: number[];
+  mtgo_id?: number;
+  arena_id?: number;
+  tcgplayer_id?: number;
+  cardmarket_id?: number;
+  name: string;
+  lang: string;
+  released_at: string;
+  uri: string;
+  scryfall_uri: string;
+  layout: string;
+  highres_image: boolean;
+  image_status: string;
+  cmc: number;
+  type_line: string;
+  color_identity: string[];
+  keywords: string[];
+  card_faces?: CardFace[];
+  legalities: Legalities;
+  games: string[];
+  reserved: boolean;
+  game_changer: boolean;
+  foil: boolean;
+  nonfoil: boolean;
+  finishes: string[];
+  oversized: boolean;
+  promo: boolean;
+  reprint: boolean;
+  variation: boolean;
+  set_id: string;
+  set: string;
+  set_name: string;
+  set_type: string;
+  set_uri: string;
+  set_search_uri: string;
+  scryfall_set_uri: string;
+  rulings_uri: string;
+  prints_search_uri: string;
+  collector_number: string;
+  digital: boolean;
+  rarity: string;
+  artist: string;
+  artist_ids: string[];
+  border_color: string;
+  frame: string;
+  frame_effects?: string[];
+  security_stamp?: string;
+  full_art: boolean;
+  textless: boolean;
+  booster: boolean;
+  story_spotlight?: boolean;
+  edhrec_rank?: number;
+  penny_rank?: number;
+  preview?: Preview;
+  prices: Prices;
+  related_uris: Record<string, string>;
+  purchase_uris: Record<string, string>;
+}
 export interface Turn {
   id?: string;
   question: string;
@@ -19,5 +146,5 @@ export interface Game {
   id?: string;
   status: 'active' | 'won' | 'lost';
   startedAt: Timestamp;
-  secretCardData: SecretCardData;
+  secretCardData: SecretCardData | null;
 }
