@@ -1,13 +1,3 @@
-import { Timestamp } from '@angular/fire/firestore';
-
-// Outdated
-// export interface SecretCardData {
-//   name: string;
-//   mana_cost: string;
-//   type_line: string;
-//   oracle_text: string;
-// }
-
 export interface ImageUris {
   small: string;
   normal: string;
@@ -133,18 +123,4 @@ export interface SecretCardData {
   prices: Prices;
   related_uris: Record<string, string>;
   purchase_uris: Record<string, string>;
-}
-export interface Turn {
-  id?: string;
-  question: string;
-  answer: string;
-  type: 'question' | 'guess';
-  timestamp: Timestamp;
-}
-
-export interface Game {
-  id?: string;
-  status: 'active' | 'won' | 'lost';
-  startedAt: Timestamp;
-  secretCardData: SecretCardData | null;
 }
