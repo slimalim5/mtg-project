@@ -6,15 +6,32 @@
   overflow: hidden;
 }
 
-.dashboard {
+/* Two-column layout */
+.dashboard-layout {
+  display: flex;
   flex: 1;
   min-height: 0;
+  overflow: hidden;
   background:
     radial-gradient(ellipse at top, rgba(211, 47, 47, 0.08) 0%, transparent 60%),
     linear-gradient(180deg, #1a1a1a 0%, #121212 100%);
-  padding: 2rem;
-  box-sizing: border-box;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 280px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
   overflow: hidden;
+}
+
+/* Main content area */
+.main-content {
+  flex: 1;
+  min-width: 0;
+  padding: 2rem;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
 }
@@ -28,11 +45,16 @@
     0 10px 40px rgba(0, 0, 0, 0.7),
     0 0 0 2px #d32f2f;
   background: linear-gradient(180deg, #2a2a2a 0%, #1f1f1f 100%);
-  overflow: hidden;
   display: flex;
   flex-direction: column;
+}
+
+/* When active game or viewing past game, fill available height */
+.content:has(.active-game),
+.content:has(.viewing-past-game) {
   flex: 1;
   min-height: 0;
+  overflow: hidden;
 }
 
 .game-area {
@@ -260,5 +282,89 @@
   }
   50% {
     box-shadow: 0 0 20px rgba(239, 83, 80, 1);
+  }
+}
+
+/* Viewing Past Game */
+.viewing-past-game {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  height: 0;
+  overflow: hidden;
+}
+
+.past-game-card {
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.7);
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  height: 0;
+  overflow: hidden;
+  background: linear-gradient(135deg, #2a2a2a 0%, #1f1f1f 100%);
+  border: 2px solid #666;
+}
+
+.past-game-card.won {
+  border-color: #4caf50;
+}
+
+.past-game-card.lost {
+  border-color: #d32f2f;
+}
+
+.past-game-card mat-card-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.past-game-card.won mat-card-title .result-icon {
+  color: #4caf50;
+}
+
+.past-game-card.lost mat-card-title .result-icon {
+  color: #d32f2f;
+}
+
+.past-game-card mat-card-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.past-card-name {
+  color: #e0e0e0;
+  margin-left: 0.5rem;
+}
+
+.past-game-actions {
+  display: flex;
+  justify-content: center;
+  padding: 1.5rem 0 1rem 0;
+  flex-shrink: 0;
+}
+
+/* Responsive: collapse sidebar on small screens */
+@media (max-width: 768px) {
+  .dashboard-layout {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    height: auto;
+    max-height: 200px;
+    border-right: none;
+    border-bottom: 1px solid rgba(211, 47, 47, 0.3);
+  }
+
+  .main-content {
+    padding: 1rem;
   }
 }

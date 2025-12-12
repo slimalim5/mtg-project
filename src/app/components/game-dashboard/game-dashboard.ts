@@ -13,6 +13,7 @@ import { AuthService } from '../../services/auth';
 import { Game, Turn } from '../../models/game.model';
 import { ChatInterfaceComponent } from '../chat-interface/chat-interface';
 import { ActionAreaComponent } from '../action-area/action-area';
+import { GameHistorySidebarComponent } from '../game-history-sidebar/game-history-sidebar';
 
 @Component({
   selector: 'app-game-dashboard',
@@ -27,6 +28,7 @@ import { ActionAreaComponent } from '../action-area/action-area';
     MatBadgeModule,
     ChatInterfaceComponent,
     ActionAreaComponent,
+    GameHistorySidebarComponent,
   ],
   templateUrl: './game-dashboard.html',
   styleUrl: './game-dashboard.css',
@@ -38,9 +40,14 @@ export class GameDashboardComponent implements OnInit {
 
   activeGame = signal<Game | null>(null);
   turns = signal<Turn[]>([]);
+  gameHistory = signal<Game[]>([]);
   isLoading = signal(false);
   isSubmitting = signal(false);
   error = signal<string | null>(null);
+
+  // State for viewing past games
+  viewingGame = signal<Game | null>(null);
+  viewingGameTurns = signal<Turn[]>([]);
 
   // Computed signal to count questions (not guesses)
   questionCount = computed(() => {
@@ -49,6 +56,7 @@ export class GameDashboardComponent implements OnInit {
 
   async ngOnInit() {
     await this.loadActiveGame();
+    await this.loadGameHistory();
   }
 
   async loadActiveGame() {
@@ -78,6 +86,18 @@ export class GameDashboardComponent implements OnInit {
     }
   }
 
+  async loadGameHistory() {
+    try {
+      const user = await firstValueFrom(this.authService.user$);
+      if (!user) return;
+
+      const history = await this.gameService.getGameHistory(user.uid);
+      this.gameHistory.set(history);
+    } catch (err) {
+      console.error('Error loading game history:', err);
+    }
+  }
+
   async onStartGame() {
     this.isLoading.set(true);
     this.error.set(null);
@@ -101,12 +121,34 @@ export class GameDashboardComponent implements OnInit {
     }
   }
 
-  onBackToDashboard() {
+  async onBackToDashboard() {
     // Clear active game and return to welcome screen
     this.activeGame.set(null);
     this.turns.set([]);
     this.error.set(null);
+    // Reload game history to include the just-finished game
+    await this.loadGameHistory();
     console.log('[GameDashboard] Returned to dashboard');
+  }
+
+  async onViewPastGame(game: Game) {
+    try {
+      const user = await firstValueFrom(this.authService.user$);
+      if (!user || !game.id) return;
+
+      // Load turns for the selected past game
+      const turns = await this.gameService.getTurns(user.uid, game.id);
+      this.viewingGame.set(game);
+      this.viewingGameTurns.set(turns);
+    } catch (err) {
+      console.error('Error loading past game:', err);
+      this.error.set('Failed to load game history');
+    }
+  }
+
+  onCloseHistoryView() {
+    this.viewingGame.set(null);
+    this.viewingGameTurns.set([]);
   }
 
   async onQuestionSubmitted(question: string) {
