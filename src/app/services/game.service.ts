@@ -9,7 +9,9 @@ import {
   where,
   orderBy,
   limit,
-  Timestamp
+  Timestamp,
+  doc,
+  updateDoc,
 } from '@angular/fire/firestore';
 import { Game, Turn, SecretCardData } from '../models/game.model';
 import { Observable } from 'rxjs';
@@ -38,8 +40,8 @@ export class GameService {
   }
 
   async createGame(userId: string): Promise<string> {
+    console.log('[GameService] createGame called for user:', userId);
     const gamesRef = collection(this.firestore, `users/${userId}/games`);
-
 
     const newGame: Omit<Game, 'id'> = {
       status: 'active',
@@ -47,7 +49,14 @@ export class GameService {
       secretCardData: this.cardData,
     };
 
+    console.log('[GameService] New game object:', {
+      status: newGame.status,
+      cardName: newGame.secretCardData?.name,
+    });
+
+    console.log('[GameService] Adding document to Firestore...');
     const docRef = await addDoc(gamesRef, newGame);
+    console.log('[GameService] Document added with ID:', docRef.id);
     return docRef.id;
   }
 
@@ -97,5 +106,10 @@ export class GameService {
 
     const snapshot = await getDocs(q);
     return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }) as Turn);
+  }
+
+  async updateGameStatus(userId: string, gameId: string, status: 'won' | 'lost'): Promise<void> {
+    const gameRef = doc(this.firestore, `users/${userId}/games/${gameId}`);
+    await updateDoc(gameRef, { status });
   }
 }

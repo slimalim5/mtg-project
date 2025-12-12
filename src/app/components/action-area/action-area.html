@@ -1,0 +1,32 @@
+<div class="action-container">
+  <div class="mode-toggle">
+    <span class="mode-label" [class.active]="!isGuessMode()">
+      <mat-icon>help_outline</mat-icon>
+      Question
+    </span>
+    <mat-slide-toggle
+      [(ngModel)]="isGuessMode"
+      (change)="onModeToggle($event.checked)"
+      color="primary"
+    ></mat-slide-toggle>
+    <span class="mode-label" [class.active]="isGuessMode()">
+      <mat-icon>lightbulb</mat-icon>
+      Guess
+    </span>
+  </div>
+
+  <form class="input-form" (ngSubmit)="onSubmit()">
+    <mat-form-field appearance="outline" class="input-field">
+      <mat-label>{{ isGuessMode() ? 'Enter your guess...' : 'Ask a yes/no question...' }}</mat-label>
+      <input matInput [(ngModel)]="userInput" name="userInput" [placeholder]="
+          isGuessMode()
+            ? 'e.g., Lightning Bolt'
+            : 'e.g., Is it a creature?'
+        " />
+    </mat-form-field>
+    <button mat-raised-button color="primary" type="submit" [disabled]="!userInput.trim()">
+      <mat-icon>{{ isGuessMode() ? 'check_circle' : 'send' }}</mat-icon>
+      {{ isGuessMode() ? 'Submit Guess' : 'Ask' }}
+    </button>
+  </form>
+</div>
