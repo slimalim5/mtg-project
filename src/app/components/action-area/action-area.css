@@ -3,8 +3,8 @@
   flex-direction: column;
   gap: 1.5rem;
   padding: 1rem;
-  background: linear-gradient(180deg, #fefdfb 0%, #fff9b8 100%);
-  border-top: 2px solid rgba(245, 144, 30, 0.3);
+  background: linear-gradient(180deg, #2a2a2a 0%, #1f1f1f 100%);
+  border-top: 2px solid rgba(211, 47, 47, 0.5);
 }
 
 .mode-toggle {
@@ -21,12 +21,13 @@
   font-weight: 500;
   font-size: 1rem;
   opacity: 0.5;
+  color: #888;
   transition: all 0.3s ease;
 }
 
 .mode-label.active {
   opacity: 1;
-  color: #f5901e;
+  color: #d32f2f;
   font-weight: 600;
 }
 
