@@ -39,7 +39,6 @@ export const askQuestion = onRequest(
     secrets: ["OPENAI_API_KEY"],
   },
   async (req, res) => {
-
     // Initialize OpenAI client
     const openai = new OpenAI({
       apiKey: process.env.OPENAI_API_KEY,
