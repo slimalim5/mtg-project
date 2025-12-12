@@ -1,5 +1,5 @@
 <div class="chat-container">
-  <div class="chat-messages">
+  <div class="chat-messages" #chatMessages>
     @if (turns.length === 0 && !isLoading) {
     <div class="empty-state">
       <mat-icon>chat</mat-icon>
