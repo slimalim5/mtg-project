@@ -4,19 +4,19 @@
   align-items: center;
   min-height: 100vh;
   background:
-    radial-gradient(ellipse at top, rgba(245, 144, 30, 0.08) 0%, transparent 50%),
-    linear-gradient(180deg, #FFF9B8 0%, #f0e8a8 100%);
+    radial-gradient(ellipse at top, rgba(211, 47, 47, 0.1) 0%, transparent 50%),
+    linear-gradient(180deg, #1a1a1a 0%, #121212 100%);
 }
 
 .login-card {
   padding: 2.5rem;
   border-radius: 8px;
   box-shadow:
-    0 10px 40px rgba(22, 17, 13, 0.2),
-    0 0 0 2px #F5901E;
+    0 10px 40px rgba(0, 0, 0, 0.7),
+    0 0 0 2px #d32f2f;
   text-align: center;
   max-width: 400px;
-  background: linear-gradient(180deg, #fefdfb 0%, #FFF9B8 100%);
+  background: linear-gradient(180deg, #2a2a2a 0%, #1f1f1f 100%);
 }
 
 .mtg-logo {

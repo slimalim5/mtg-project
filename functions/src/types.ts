@@ -84,6 +84,13 @@ export interface SecretCardData {
   color_identity: string[];
   keywords: string[];
   card_faces?: CardFace[];
+  // Properties for single-faced cards
+  mana_cost?: string;
+  oracle_text?: string;
+  power?: string;
+  toughness?: string;
+  loyalty?: string;
+  colors?: string[];
   legalities: Legalities;
   games: string[];
   reserved: boolean;
