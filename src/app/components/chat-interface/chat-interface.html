@@ -1,0 +1,44 @@
+<div class="chat-container">
+  <div class="chat-messages" #chatMessages>
+    @if (turns.length === 0 && !isLoading) {
+    <div class="empty-state">
+      <mat-icon>chat</mat-icon>
+      <p>No questions yet. Start by asking a question about the card!</p>
+    </div>
+    } @for (turn of turns; track turn.id) {
+    <div class="message-wrapper" [class.question-type]="turn.type === 'question'">
+      <!-- User Question -->
+      <div class="message user-message">
+        <div class="message-header">
+          <mat-icon>person</mat-icon>
+          <span class="message-label">You</span>
+        </div>
+        <div class="message-content">{{ turn.question }}</div>
+      </div>
+
+      <!-- LLM Answer -->
+      <div class="message llm-message">
+        <div class="message-header">
+          <mat-icon>smart_toy</mat-icon>
+          <span class="message-label">AI Judge</span>
+        </div>
+        <div class="message-content">{{ turn.answer }}</div>
+      </div>
+    </div>
+    } @if (isLoading) {
+    <div class="message llm-message loading-message">
+      <div class="message-header">
+        <mat-icon>smart_toy</mat-icon>
+        <span class="message-label">AI Judge</span>
+      </div>
+      <div class="message-content">
+        <div class="typing-indicator">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+    </div>
+    }
+  </div>
+</div>

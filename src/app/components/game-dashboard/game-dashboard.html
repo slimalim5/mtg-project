@@ -1,111 +1,188 @@
-<div class="dashboard">
-  <mat-card class="content">
-    <mat-card-header>
-      <mat-card-title>Welcome to MTG 20 Questions!</mat-card-title>
-      <mat-card-subtitle>Think of a Magic: The Gathering card, and I'll try to guess it in 20 questions or less.</mat-card-subtitle>
-    </mat-card-header>
-    <mat-card-content>
-      <div class="game-area">
-        <button mat-raised-button color="primary" class="start-btn" (click)="getRandomCard()" [disabled]="loading()">
-          <mat-icon>casino</mat-icon>
-          Get Random Card
-        </button>
-      </div>
+<div class="dashboard-layout">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <app-game-history-sidebar
+      [games]="gameHistory()"
+      [selectedGameId]="viewingGame()?.id ?? null"
+      (gameSelected)="onViewPastGame($event)"
+    ></app-game-history-sidebar>
+  </aside>
 
-      <!-- Current Card Display -->
-      @if (currentCard(); as card) {
-        <mat-card class="card-info">
+  <!-- Main Content -->
+  <main class="main-content">
+    <mat-card class="content">
+      <mat-card-header>
+        <mat-card-title>Welcome to MTG 20 Questions!</mat-card-title>
+        <mat-card-subtitle
+          >I'll try to guess a Magic: The Gathering card by asking you yes/no questions.</mat-card-subtitle
+        >
+      </mat-card-header>
+      <mat-card-content>
+        <!-- Error Message -->
+        @if (error()) {
+        <div class="error-message">
+          <mat-icon>error</mat-icon>
+          <span>{{ error() }}</span>
+        </div>
+        }
+
+        <!-- Viewing Past Game -->
+        @if (viewingGame()) {
+        <div class="viewing-past-game">
+          <mat-card
+            class="past-game-card"
+            [class.won]="viewingGame()?.status === 'won'"
+            [class.lost]="viewingGame()?.status === 'lost'"
+          >
+            <mat-card-header>
+              <mat-card-title>
+                @if (viewingGame()?.status === 'won') {
+                <mat-icon class="result-icon">emoji_events</mat-icon>
+                Victory!
+                } @else {
+                <mat-icon class="result-icon">close</mat-icon>
+                Defeat
+                }
+                <span class="past-card-name">{{ viewingGame()?.secretCardData?.name }}</span>
+              </mat-card-title>
+              <mat-card-subtitle>
+                Played {{ viewingGame()?.startedAt?.toDate() | date: 'medium' }}
+              </mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+              <app-chat-interface [turns]="viewingGameTurns()" [isLoading]="false"></app-chat-interface>
+
+              <div class="past-game-actions">
+                <button mat-stroked-button class="action-btn" (click)="onCloseHistoryView()">
+                  <mat-icon>arrow_back</mat-icon>
+                  @if (activeGame()) {
+                  Back to Current Game
+                  } @else {
+                  Back to Dashboard
+                  }
+                </button>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+        } @else {
+        <!-- Normal View (No past game being viewed) -->
+
+        <!-- No Active Game -->
+        @if (!activeGame() && !isLoading()) {
+        <div class="game-area">
+          <button mat-raised-button color="primary" class="start-btn" (click)="onStartGame()">
+            <mat-icon>play_arrow</mat-icon>
+            Start New Game
+          </button>
+        </div>
+
+        <mat-card class="info-card">
           <mat-card-header>
-            <mat-card-title>Current Card</mat-card-title>
+            <mat-card-title>How to play</mat-card-title>
           </mat-card-header>
           <mat-card-content>
-            <h3>{{ card.name }}</h3>
-            <p><strong>Type:</strong> {{ card.type_line }}</p>
-            <p><strong>CMC:</strong> {{ card.cmc }}</p>
-            @if (card.card_faces && card.card_faces[0]) {
-              <p>
-                <strong>Mana Cost:</strong> {{ card.card_faces[0].mana_cost }}
-              </p>
-            }
-            @if (card.card_faces && card.card_faces[0]) {
-              <p>
-                <strong>Oracle Text:</strong> {{ card.card_faces[0].oracle_text }}
-              </p>
-            }
-            <p><strong>Rarity:</strong> {{ card.rarity }}</p>
-            <p><strong>Set:</strong> {{ card.set_name }}</p>
+            <mat-list>
+              <mat-list-item>
+                <mat-icon matListItemIcon>touch_app</mat-icon>
+                <span matListItemTitle>Click "Start New Game"</span>
+              </mat-list-item>
+              <mat-list-item>
+                <mat-icon matListItemIcon>quiz</mat-icon>
+                <span matListItemTitle>Ask me yes/no questions about the card</span>
+              </mat-list-item>
+              <mat-list-item>
+                <mat-icon matListItemIcon>lightbulb</mat-icon>
+                <span matListItemTitle>I'll answer based on the card's properties</span>
+              </mat-list-item>
+              <mat-list-item>
+                <mat-icon matListItemIcon>check_circle</mat-icon>
+                <span matListItemTitle>Guess the card name when you think you know it!</span>
+              </mat-list-item>
+            </mat-list>
           </mat-card-content>
         </mat-card>
-      }
+        }
 
-      <!-- Question Input -->
-      @if (currentCard()) {
-        <mat-card class="question-card">
-          <mat-card-header>
-            <mat-card-title>Ask a Question</mat-card-title>
-          </mat-card-header>
-          <mat-card-content>
-            <mat-form-field class="full-width">
-              <mat-label>Your question</mat-label>
-              <input matInput [ngModel]="question()" (ngModelChange)="question.set($event)" placeholder="Is this card blue?" [disabled]="loading()">
-            </mat-form-field>
+        <!-- Loading State -->
+        @if (isLoading()) {
+        <div class="loading-area">
+          <mat-spinner></mat-spinner>
+          <p>Starting new game...</p>
+        </div>
+        }
 
-            <button mat-raised-button color="accent" (click)="askQuestion()" [disabled]="loading() || !question().trim()">
-              <mat-icon>send</mat-icon>
-              Ask Question
-            </button>
+        <!-- Active Game -->
+        @if (activeGame() && !isLoading()) {
+        <div class="active-game">
+          <!-- Game Over State (Won or Lost) -->
+          @if (activeGame()?.status === 'won' || activeGame()?.status === 'lost') {
+          <mat-card
+            class="game-over-card"
+            [class.won]="activeGame()?.status === 'won'"
+            [class.lost]="activeGame()?.status === 'lost'"
+          >
+            <mat-card-header>
+              <mat-card-title>
+                @if (activeGame()?.status === 'won') {
+                <mat-icon class="result-icon">emoji_events</mat-icon>
+                Congratulations! You Won!
+                } @else {
+                <mat-icon class="result-icon">sentiment_dissatisfied</mat-icon>
+                Game Over - You Lost
+                }
+              </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <!-- Chat Interface (showing history) -->
+              <app-chat-interface [turns]="turns()" [isLoading]="false"></app-chat-interface>
 
-            <!-- Loading Spinner -->
-            @if (loading()) {
-              <div class="spinner-container">
-                <mat-spinner diameter="40"></mat-spinner>
+              <!-- Game Over Actions -->
+              <div class="game-over-actions">
+                <button mat-raised-button color="primary" class="action-btn" (click)="onStartGame()">
+                  <mat-icon>refresh</mat-icon>
+                  Play Again
+                </button>
+                <button mat-stroked-button class="action-btn secondary" (click)="onBackToDashboard()">
+                  <mat-icon>home</mat-icon>
+                  Back to Dashboard
+                </button>
               </div>
-            }
+            </mat-card-content>
+          </mat-card>
+          } @else {
+          <!-- Active Game State -->
+          <mat-card class="game-status-card">
+            <mat-card-header>
+              <mat-card-title>
+                <div class="title-with-counter">
+                  <span>Game Active!</span>
+                  <div class="question-counter" [class.warning]="questionCount() >= 15" [class.danger]="questionCount() >= 20">
+                    <mat-icon>quiz</mat-icon>
+                    <span class="counter-text">{{ questionCount() }} / 20 Questions</span>
+                  </div>
+                </div>
+              </mat-card-title>
+              @if (activeGame()?.startedAt) {
+              <mat-card-subtitle>Started {{ activeGame()!.startedAt.toDate() | date: 'short' }}</mat-card-subtitle>
+              }
+            </mat-card-header>
+            <mat-card-content>
+              <!-- Chat Interface -->
+              <app-chat-interface [turns]="turns()" [isLoading]="isSubmitting()"></app-chat-interface>
 
-            <!-- Error Display -->
-            @if (error()) {
-              <div class="error-message">
-                <mat-icon color="warn">error</mat-icon>
-                {{ error() }}
-              </div>
-            }
-
-            <!-- Answer Display -->
-            @if (answer()) {
-              <div class="answer-display">
-                <h4>Answer:</h4>
-                <p>{{ answer() }}</p>
-              </div>
-            }
-          </mat-card-content>
-        </mat-card>
-      }
-
-      <mat-card class="info-card">
-        <mat-card-header>
-          <mat-card-title>How to play</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <mat-list>
-            <mat-list-item>
-              <mat-icon matListItemIcon>casino</mat-icon>
-              <span matListItemTitle>Click "Get Random Card" to select a card</span>
-            </mat-list-item>
-            <mat-list-item>
-              <mat-icon matListItemIcon>quiz</mat-icon>
-              <span matListItemTitle>Ask questions about the card</span>
-            </mat-list-item>
-            <mat-list-item>
-              <mat-icon matListItemIcon>smart_toy</mat-icon>
-              <span matListItemTitle>The AI will answer based on the card's properties</span>
-            </mat-list-item>
-            <mat-list-item>
-              <mat-icon matListItemIcon>timer</mat-icon>
-              <span matListItemTitle>Try to guess the card in 20 questions or less</span>
-            </mat-list-item>
-          </mat-list>
-        </mat-card-content>
-      </mat-card>
-    </mat-card-content>
-  </mat-card>
+              <!-- Action Area -->
+              <app-action-area
+                (questionSubmitted)="onQuestionSubmitted($event)"
+                (guessSubmitted)="onGuessSubmitted($event)"
+              ></app-action-area>
+            </mat-card-content>
+          </mat-card>
+          }
+        </div>
+        }
+        }
+      </mat-card-content>
+    </mat-card>
+  </main>
 </div>

@@ -13,7 +13,7 @@ interface AskQuestionResponse {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class LlmService {
   private http = inject(HttpClient);

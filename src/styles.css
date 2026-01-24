@@ -3,28 +3,32 @@
 html {
   @include mat.theme((
     color: (
-      theme-type: light,
-      primary: mat.$orange-palette,
-      tertiary: mat.$cyan-palette,
+      theme-type: dark,
+      primary: mat.$red-palette,
+      tertiary: mat.$blue-grey-palette,
     ),
     typography: Roboto,
     density: 0,
   ));
 }
 
+html,
 body {
   margin: 0;
+  height: 100%;
+  overflow: hidden;
   font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif;
-  background: #FFF9B8;
+  background: #1a1a1a;
+  color: #e0e0e0;
 }
 
 /* Global Material Button Styles */
 .mat-mdc-raised-button.mat-primary,
 .mat-mdc-unelevated-button.mat-primary {
-  --mdc-protected-button-container-color: #F5901E;
-  --mdc-protected-button-label-text-color: #16110D;
-  --mdc-filled-button-container-color: #F5901E;
-  --mdc-filled-button-label-text-color: #16110D;
+  --mdc-protected-button-container-color: #d32f2f;
+  --mdc-protected-button-label-text-color: #ffffff;
+  --mdc-filled-button-container-color: #d32f2f;
+  --mdc-filled-button-label-text-color: #ffffff;
   font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif;
   font-weight: 700;
   font-size: 1rem;
@@ -33,26 +37,26 @@ body {
   padding: 0 24px;
   height: 44px;
   box-shadow:
-    0 4px 12px rgba(245, 144, 30, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
-  border: 1px solid rgba(0, 0, 0, 0.1);
+    0 4px 12px rgba(211, 47, 47, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   transition: all 0.2s ease;
 }
 
 .mat-mdc-raised-button.mat-primary:hover,
 .mat-mdc-unelevated-button.mat-primary:hover {
-  --mdc-protected-button-container-color: #f9a94d;
-  --mdc-filled-button-container-color: #f9a94d;
+  --mdc-protected-button-container-color: #e53935;
+  --mdc-filled-button-container-color: #e53935;
   transform: translateY(-2px);
   box-shadow:
-    0 6px 16px rgba(245, 144, 30, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    0 6px 16px rgba(211, 47, 47, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 .mat-mdc-raised-button.mat-primary:active,
 .mat-mdc-unelevated-button.mat-primary:active {
   transform: translateY(0);
-  box-shadow: 0 2px 8px rgba(245, 144, 30, 0.3);
+  box-shadow: 0 2px 8px rgba(211, 47, 47, 0.4);
 }
 
 .mat-mdc-button {
@@ -72,16 +76,16 @@ body {
 }
 
 .login-card .mat-mdc-card-title {
-  color: #16110D !important;
+  color: #e0e0e0 !important;
   font-size: 1.8rem;
   font-weight: 700;
   font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
   letter-spacing: 2px;
 }
 
 .login-card .mat-mdc-card-subtitle {
-  color: #104B8A !important;
+  color: #d32f2f !important;
   font-size: 1rem;
   margin-top: 0.5rem;
   font-style: italic;
@@ -89,49 +93,49 @@ body {
 
 /* Header Toolbar Styles */
 .mat-toolbar.mat-primary {
-  background: linear-gradient(90deg, #16110D 0%, #1e1915 50%, #16110D 100%);
+  background: linear-gradient(90deg, #212121 0%, #2a2a2a 50%, #212121 100%);
   box-shadow:
-    0 2px 8px rgba(0, 0, 0, 0.4),
-    inset 0 -1px 0 rgba(245, 144, 30, 0.3);
+    0 2px 8px rgba(0, 0, 0, 0.6),
+    inset 0 -1px 0 rgba(211, 47, 47, 0.3);
   font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif;
-  border-bottom: 2px solid #F5901E;
+  border-bottom: 2px solid #d32f2f;
 }
 
 .mat-toolbar span:first-child {
   font-size: 1.3rem;
   font-weight: 700;
   letter-spacing: 1px;
-  color: #F5901E;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  color: #d32f2f;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
 }
 
 .mat-toolbar button.mat-mdc-button {
-  color: #FFF9B8;
+  color: #e0e0e0;
   font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif;
   font-weight: 600;
   font-size: 0.9rem;
   letter-spacing: 0.5px;
-  border: 1px solid #F5901E;
+  border: 1px solid #d32f2f;
   border-radius: 4px;
   padding: 0 16px;
   height: 36px;
-  background: rgba(245, 144, 30, 0.1);
+  background: rgba(211, 47, 47, 0.15);
   transition: all 0.2s ease;
 }
 
 .mat-toolbar button.mat-mdc-button:hover {
-  background: #F5901E;
-  color: #16110D;
+  background: #d32f2f;
+  color: #ffffff;
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(245, 144, 30, 0.3);
+  box-shadow: 0 4px 12px rgba(211, 47, 47, 0.4);
 }
 
 .mat-toolbar button.mat-mdc-button:hover mat-icon {
-  color: #16110D;
+  color: #ffffff;
 }
 
 .mat-toolbar mat-icon {
-  color: #F5901E;
+  color: #d32f2f;
   font-size: 18px;
   width: 18px;
   height: 18px;
@@ -140,14 +144,15 @@ body {
 
 /* Game Dashboard Card Styles */
 .content > .mat-mdc-card-header {
-  background: linear-gradient(180deg, #16110D 0%, #1e1915 100%);
+  background: linear-gradient(180deg, #212121 0%, #2a2a2a 100%);
   padding: 1.5rem 2rem;
-  margin: -16px -16px 16px -16px;
-  border-bottom: 2px solid #F5901E;
+  margin: -16px -16px 0 -16px;
+  border-bottom: 2px solid #d32f2f;
+  flex-shrink: 0;
 }
 
 .content .mat-mdc-card-title {
-  color: #F5901E !important;
+  color: #d32f2f !important;
   font-size: 1.6rem;
   font-weight: 700;
   font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif;
@@ -155,7 +160,7 @@ body {
 }
 
 .content .mat-mdc-card-subtitle {
-  color: #FFF9B8 !important;
+  color: #b0b0b0 !important;
   font-size: 1rem;
   font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif;
   font-style: italic;
@@ -170,17 +175,45 @@ body {
 }
 
 .info-card .mat-mdc-card-title {
-  color: #16110D !important;
+  color: #e0e0e0 !important;
   font-size: 1.2rem;
   font-weight: 700;
   font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif;
 }
 
 .info-card mat-icon {
-  color: #F5901E;
+  color: #d32f2f;
 }
 
 .info-card .mdc-list-item__primary-text {
-  color: #16110D;
+  color: #e0e0e0;
   font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif;
+}
+
+/* Game Status Card - flex layout for chat */
+.game-status-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.game-status-card .mat-mdc-card-header,
+.game-over-card .mat-mdc-card-header {
+  flex-shrink: 0;
+}
+
+.game-status-card .mat-mdc-card-content,
+.game-over-card .mat-mdc-card-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  height: 0;
+  overflow: hidden;
+}
+
+.content > .mat-mdc-card-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  height: 0;
+  overflow: hidden;
 }

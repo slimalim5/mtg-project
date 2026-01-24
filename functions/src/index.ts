@@ -39,7 +39,6 @@ export const askQuestion = onRequest(
     secrets: ["OPENAI_API_KEY"],
   },
   async (req, res) => {
-
     // Initialize OpenAI client
     const openai = new OpenAI({
       apiKey: process.env.OPENAI_API_KEY,
@@ -67,25 +66,59 @@ export const askQuestion = onRequest(
       }
 
       // Create a system prompt with card context
+      // Handle both single-faced cards (properties on card)
+      // and double-faced cards (properties in card_faces)
+      const manaCost = secretCardData.mana_cost ||
+        secretCardData.card_faces?.[0]?.mana_cost ||
+        "N/A";
+      const oracleText = secretCardData.oracle_text ||
+        secretCardData.card_faces?.[0]?.oracle_text ||
+        "N/A";
+      const power = secretCardData.power ||
+        secretCardData.card_faces?.[0]?.power ||
+        undefined;
+      const toughness = secretCardData.toughness ||
+        secretCardData.card_faces?.[0]?.toughness ||
+        undefined;
+      const colors = secretCardData.colors ||
+        secretCardData.card_faces?.[0]?.colors ||
+        [];
+
       const systemPrompt = "You are playing a 20 Questions game " +
-        `about Magic: The Gathering cards.
-You know the secret card and must answer questions about it ` +
-        `with "Yes", "No", or brief clarifications.
-The secret card is:
-
-Name: ${secretCardData.name}
-Type: ${secretCardData.type_line}
-Mana Cost: ${secretCardData.card_faces?.[0]?.mana_cost || "N/A"}
-Oracle Text: ${secretCardData.card_faces?.[0]?.oracle_text || "N/A"}
-Colors: ${secretCardData.color_identity.join(", ") || "Colorless"}
-CMC: ${secretCardData.cmc}
-Rarity: ${secretCardData.rarity}
-Set: ${secretCardData.set_name}
-Keywords: ${secretCardData.keywords.join(", ") || "None"}
-
-Answer questions truthfully and concisely. ` +
-        "If asked if the card is a specific card, " +
-        "only say \"Yes\" if it's an exact match.";
+        "about Magic: The Gathering cards.\n\n" +
+        "CRITICAL RULES - YOU MUST FOLLOW THESE EXACTLY:\n" +
+        "1. You may ONLY respond with one of these three options:\n" +
+        "   - \"Yes\"\n" +
+        "   - \"No\"\n" +
+        "   - \"Please ask a yes or no question.\"\n" +
+        "2. NEVER provide any other information, explanations, " +
+        "or details.\n" +
+        "3. If the question cannot be answered with yes or no, " +
+        "respond ONLY with \"Please ask a yes or no question.\"\n\n" +
+        "The secret card is:\n" +
+        `Name: ${secretCardData.name}\n` +
+        `Type: ${secretCardData.type_line}\n` +
+        `Mana Cost: ${manaCost}\n` +
+        `Oracle Text: ${oracleText}\n` +
+        `Colors: ${colors.length > 0 ? colors.join(", ") : "Colorless"}\n` +
+        "Color Identity: " +
+        `${secretCardData.color_identity.join(", ") || "Colorless"}\n` +
+        `CMC: ${secretCardData.cmc}\n` +
+        (power && toughness ?
+          `Power/Toughness: ${power}/${toughness}\n` : "") +
+        `Rarity: ${secretCardData.rarity}\n` +
+        `Set: ${secretCardData.set_name}\n` +
+        `Keywords: ${secretCardData.keywords.join(", ") || "None"}\n\n` +
+        "EXAMPLES:\n" +
+        "Question: \"Is this card red?\" → Answer: \"Yes\" or \"No\"\n" +
+        "Question: \"Does this card cost 3 mana?\" → " +
+        "Answer: \"Yes\" or \"No\"\n" +
+        "Question: \"What does this card do?\" → " +
+        "Answer: \"Please ask a yes or no question.\"\n" +
+        "Question: \"Is this Lightning Bolt?\" → " +
+        "Answer: \"Yes\" or \"No\"\n\n" +
+        "Remember: ONLY respond with \"Yes\", \"No\", or " +
+        "\"Please ask a yes or no question.\" Nothing else!";
 
       // Call OpenAI API with GPT-4o-mini
       const completion = await openai.chat.completions.create({
